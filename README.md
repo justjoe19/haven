@@ -60,6 +60,6 @@ haven-design-studio/
 | CSS-only marquee | Performant, no JS overhead |
 | Intersection Observer for reveals | Modern, efficient alternative to scroll event listeners |
 
-## License
+---
 
-This project is open source and available under the [MIT License](LICENSE).
+*Haven is a fictional business created for demonstration purposes.*
