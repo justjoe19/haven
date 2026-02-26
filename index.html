@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HAVEN — Interior Architecture & Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Tenor+Sans&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F5F0E8;
+      --warm-white: #FDFAF5;
+      --charcoal: #1C1A18;
+      --taupe: #9A8E80;
+      --sand: #C9BBA8;
+      --rust: #A85840;
+      --rust-light: #C4705A;
+      --gold: #B89A6A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Tenor Sans', sans-serif;
+      background: var(--warm-white);
+      color: var(--charcoal);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      position: fixed;
+      width: 8px; height: 8px;
+      background: var(--rust);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1px solid var(--rust);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      opacity: 0.6;
+    }
+    body:hover .cursor-ring { opacity: 1; }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      mix-blend-mode: multiply;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 22px;
+      letter-spacing: 0.35em;
+      color: var(--charcoal);
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--rust); }
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      text-decoration: none;
+      opacity: 0.6;
+      transition: opacity 0.3s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-cta {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--rust);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rust);
+      padding-bottom: 2px;
+      transition: opacity 0.3s;
+    }
+    .nav-cta:hover { opacity: 0.7; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 120px 0 80px 48px;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 1s 0.3s forwards;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(72px, 8vw, 120px);
+      font-weight: 300;
+      line-height: 0.92;
+      letter-spacing: -0.01em;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeUp 1s 0.5s forwards;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--rust);
+    }
+    .hero-desc {
+      max-width: 380px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--taupe);
+      margin-bottom: 56px;
+      opacity: 0;
+      animation: fadeUp 1s 0.7s forwards;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      opacity: 0;
+      animation: fadeUp 1s 0.9s forwards;
+    }
+    .btn-primary {
+      background: var(--charcoal);
+      color: var(--cream);
+      padding: 18px 40px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.3s, transform 0.3s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--rust); transform: translateY(-2px); }
+    .btn-ghost {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: color 0.3s;
+    }
+    .btn-ghost::before {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: currentColor;
+      transition: width 0.3s;
+    }
+    .btn-ghost:hover { color: var(--charcoal); }
+    .btn-ghost:hover::before { width: 50px; }
+
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-image-wrap {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .hero-image-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(168,88,64,0.08) 0%, transparent 60%);
+      z-index: 1;
+    }
+    .hero-image-bg {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transform: scale(1.05);
+      animation: slowZoom 20s ease-out forwards;
+    }
+    /* Simulated image using CSS */
+    .hero-img-sim {
+      width: 100%; height: 100%;
+      background:
+        radial-gradient(ellipse at 30% 60%, rgba(184,154,106,0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(168,88,64,0.15) 0%, transparent 40%),
+        linear-gradient(160deg, #E8DDD0 0%, #C9BBA8 40%, #9A8E80 100%);
+      transform: scale(1.05);
+      animation: slowZoom 20s ease-out forwards;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Furniture silhouette decoration */
+    .hero-img-sim::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 40%;
+      background: linear-gradient(0deg, rgba(28,26,24,0.3) 0%, transparent 100%);
+    }
+    .room-decor {
+      position: absolute;
+      bottom: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      display: flex;
+      gap: 16px;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .sofa-shape {
+      width: 200px; height: 70px;
+      background: rgba(28,26,24,0.4);
+      border-radius: 8px 8px 0 0;
+      position: relative;
+    }
+    .sofa-shape::before {
+      content: '';
+      position: absolute;
+      top: -20px; left: 10px; right: 10px;
+      height: 30px;
+      background: rgba(28,26,24,0.3);
+      border-radius: 4px 4px 0 0;
+    }
+    .lamp-shape {
+      width: 6px; height: 120px;
+      background: rgba(28,26,24,0.5);
+      position: relative;
+    }
+    .lamp-shape::before {
+      content: '';
+      position: absolute;
+      top: -40px; left: 50%;
+      transform: translateX(-50%);
+      width: 60px; height: 50px;
+      background: rgba(28,26,24,0.4);
+      clip-path: polygon(20% 100%, 80% 100%, 100% 0%, 0% 0%);
+    }
+    .plant-shape {
+      width: 50px; height: 80px;
+      position: relative;
+    }
+    .plant-shape::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 16px; height: 40px;
+      background: rgba(28,26,24,0.4);
+      border-radius: 2px;
+    }
+    .plant-shape::after {
+      content: '';
+      position: absolute;
+      bottom: 35px; left: 50%;
+      transform: translateX(-50%);
+      width: 50px; height: 55px;
+      background: rgba(28,26,24,0.35);
+      border-radius: 50% 50% 10% 10%;
+    }
+    .hero-number {
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 120px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.15);
+      line-height: 1;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .hero-scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 48px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--taupe);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeIn 1s 1.5s forwards;
+    }
+    .scroll-line {
+      width: 40px;
+      height: 1px;
+      background: var(--sand);
+      position: relative;
+      overflow: hidden;
+    }
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--rust);
+      animation: scrollSlide 2s 2s infinite;
+    }
+
+    /* MARQUEE BAND */
+    .marquee-band {
+      background: var(--charcoal);
+      padding: 16px 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 60px;
+      animation: marquee 25s linear infinite;
+      width: max-content;
+    }
+    .marquee-item {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--sand);
+      white-space: nowrap;
+      letter-spacing: 0.05em;
+    }
+    .marquee-sep {
+      color: var(--rust);
+      font-style: normal;
+      margin: 0 10px;
+    }
+
+    /* SERVICES */
+    section { padding: 120px 48px; }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .section-title em { font-style: italic; color: var(--taupe); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--sand);
+      border: 1px solid var(--sand);
+      margin-top: 80px;
+    }
+    .service-card {
+      background: var(--warm-white);
+      padding: 56px 40px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s;
+    }
+    .service-card:hover { background: var(--cream); }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 40px;
+      width: 0; height: 2px;
+      background: var(--rust);
+      transition: width 0.4s ease;
+    }
+    .service-card:hover::after { width: calc(100% - 80px); }
+    .service-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 64px;
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1;
+      margin-bottom: 32px;
+      transition: color 0.4s;
+    }
+    .service-card:hover .service-num { color: var(--sand); }
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 400;
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
+    }
+    .service-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--taupe);
+    }
+    .service-arrow {
+      position: absolute;
+      top: 56px; right: 40px;
+      font-size: 20px;
+      color: var(--sand);
+      transition: transform 0.3s, color 0.3s;
+    }
+    .service-card:hover .service-arrow { transform: translate(4px, -4px); color: var(--rust); }
+
+    /* ABOUT SPLIT */
+    .about-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      padding: 120px 48px;
+    }
+    .about-visual {
+      position: relative;
+      height: 600px;
+    }
+    .about-img-main {
+      position: absolute;
+      top: 0; left: 0;
+      width: 75%; height: 80%;
+      background: linear-gradient(135deg, #D4C4B0 0%, #B0A090 100%);
+      overflow: hidden;
+    }
+    .about-img-main::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(184,154,106,0.3) 0%, transparent 60%),
+        linear-gradient(180deg, transparent 60%, rgba(28,26,24,0.2) 100%);
+    }
+    .about-img-accent {
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 50%; height: 45%;
+      background: var(--charcoal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+    .about-stat {
+      text-align: center;
+    }
+    .about-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 72px;
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1;
+    }
+    .about-stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sand);
+      margin-top: 8px;
+    }
+    .about-text .section-title { margin-bottom: 32px; }
+    .about-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--taupe);
+      margin-bottom: 20px;
+    }
+    .about-signature {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-style: italic;
+      color: var(--charcoal);
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid var(--sand);
+    }
+    .about-sig-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--taupe);
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    /* PROJECTS */
+    .projects-section { padding: 120px 0; }
+    .projects-header {
+      padding: 0 48px 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .projects-header a {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--rust);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: gap 0.3s;
+    }
+    .projects-header a:hover { gap: 18px; }
+    .projects-scroll {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--sand);
+    }
+    .project-card {
+      background: var(--warm-white);
+      aspect-ratio: 3/4;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .project-bg {
+      position: absolute;
+      inset: 0;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .project-card:hover .project-bg { transform: scale(1.06); }
+    .project-bg-1 {
+      background: linear-gradient(160deg, #C9BBA8 0%, #9A8E80 50%, #7A6E62 100%);
+    }
+    .project-bg-2 {
+      background: linear-gradient(200deg, #E8DDD0 0%, #C4A882 40%, #9A7A5A 100%);
+    }
+    .project-bg-3 {
+      background: linear-gradient(140deg, #D4C4B0 0%, #B0956E 50%, #6A5040 100%);
+    }
+    .project-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(28,26,24,0.75) 100%);
+      z-index: 1;
+    }
+    .project-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 32px;
+      z-index: 2;
+      transform: translateY(20px);
+      transition: transform 0.4s;
+    }
+    .project-card:hover .project-info { transform: translateY(0); }
+    .project-cat {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sand);
+      margin-bottom: 8px;
+    }
+    .project-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 300;
+      color: white;
+      line-height: 1.2;
+    }
+    .project-detail {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      margin-top: 8px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s 0.1s, transform 0.4s 0.1s;
+    }
+    .project-card:hover .project-detail { opacity: 1; transform: translateY(0); }
+
+    /* TESTIMONIAL */
+    .testimonial-section {
+      background: var(--charcoal);
+      padding: 120px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .testimonial-section::before {
+      content: '"';
+      position: absolute;
+      top: -40px; left: 40px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 400px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.03);
+      line-height: 1;
+      pointer-events: none;
+    }
+    .testimonial-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .testimonial-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--cream);
+      margin-bottom: 48px;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    .testimonial-avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--rust));
+    }
+    .testimonial-name {
+      text-align: left;
+    }
+    .t-name {
+      font-family: 'Tenor Sans', sans-serif;
+      font-size: 14px;
+      color: var(--cream);
+      letter-spacing: 0.05em;
+    }
+    .t-role {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      margin-top: 4px;
+    }
+    .testimonial-dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 56px;
+    }
+    .t-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--taupe); }
+    .t-dot.active { background: var(--rust); width: 24px; border-radius: 3px; }
+
+    /* PROCESS */
+    .process-section { padding: 120px 48px; }
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      margin-top: 80px;
+      position: relative;
+    }
+    .process-grid::before {
+      content: '';
+      position: absolute;
+      top: 28px; left: 10%;
+      width: 80%; height: 1px;
+      background: var(--sand);
+      z-index: 0;
+    }
+    .process-step { position: relative; z-index: 1; }
+    .process-dot {
+      width: 56px; height: 56px;
+      border: 1px solid var(--sand);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 32px;
+      background: var(--warm-white);
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .process-step:hover .process-dot { border-color: var(--rust); background: var(--rust); }
+    .process-dot-inner {
+      width: 8px; height: 8px;
+      background: var(--sand);
+      border-radius: 50%;
+      transition: background 0.3s;
+    }
+    .process-step:hover .process-dot-inner { background: white; }
+    .process-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+    .process-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--taupe);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--charcoal);
+      padding: 80px 48px 48px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 80px;
+      padding-bottom: 64px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 48px;
+    }
+    .footer-brand .nav-logo {
+      color: var(--cream);
+      display: block;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+    .footer-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--taupe);
+      line-height: 1.6;
+      max-width: 260px;
+    }
+    .footer-col-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--sand);
+      margin-bottom: 24px;
+    }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--taupe);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--cream); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      color: var(--taupe);
+      text-transform: uppercase;
+    }
+    .footer-socials { display: flex; gap: 24px; }
+    .footer-socials a {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--taupe);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-socials a:hover { color: var(--rust); }
+
+    /* CONTACT STRIP */
+    .contact-strip {
+      background: var(--rust);
+      padding: 80px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+    .contact-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1.15;
+    }
+    .contact-text em { font-style: italic; opacity: 0.75; }
+    .btn-light {
+      background: var(--cream);
+      color: var(--rust);
+      padding: 18px 48px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .btn-light:hover { background: var(--charcoal); color: var(--cream); transform: translateY(-2px); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slowZoom {
+      from { transform: scale(1.05); }
+      to { transform: scale(1); }
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    @keyframes scrollSlide {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    /* Reveal on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.15s; }
+    .reveal-delay-2 { transition-delay: 0.3s; }
+    .reveal-delay-3 { transition-delay: 0.45s; }
+
+    /* Noise texture overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">HAV<span>E</span>N</a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">Studio</a></li>
+      <li><a href="#process">Process</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Start a Project</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Interior Architecture & Design</div>
+      <h1 class="hero-title">Spaces<br>that<br><em>endure.</em></h1>
+      <p class="hero-desc">We craft interiors that transcend trends — rooted in materiality, light, and the quiet language of lived experience.</p>
+      <div class="hero-actions">
+        <a href="#work" class="btn-primary">View Our Work</a>
+        <a href="#about" class="btn-ghost">Our Philosophy</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-image-wrap">
+        <div class="hero-img-sim">
+          <div class="room-decor">
+            <div class="plant-shape"></div>
+            <div class="sofa-shape"></div>
+            <div class="lamp-shape"></div>
+          </div>
+          <div class="hero-number">01</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll-indicator">
+      <span class="scroll-line"></span>
+      Scroll to explore
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-band" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">Residential Design <span class="marquee-sep">✦</span> Commercial Spaces <span class="marquee-sep">✦</span> Bespoke Furniture <span class="marquee-sep">✦</span> Architectural Curation <span class="marquee-sep">✦</span> Material Sourcing <span class="marquee-sep">✦</span> Lighting Design <span class="marquee-sep">✦</span> Art Direction <span class="marquee-sep">✦</span></span>
+      <span class="marquee-item">Residential Design <span class="marquee-sep">✦</span> Commercial Spaces <span class="marquee-sep">✦</span> Bespoke Furniture <span class="marquee-sep">✦</span> Architectural Curation <span class="marquee-sep">✦</span> Material Sourcing <span class="marquee-sep">✦</span> Lighting Design <span class="marquee-sep">✦</span> Art Direction <span class="marquee-sep">✦</span></span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-label reveal">Our Disciplines</div>
+    <h2 class="section-title reveal reveal-delay-1">What we do,<br><em>beautifully.</em></h2>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-num">01</div>
+        <div class="service-arrow">↗</div>
+        <div class="service-name">Residential Design</div>
+        <p class="service-desc">Private homes that breathe. We listen to how you live before we ever lift a pencil — understanding rhythm, light, and ritual.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-num">02</div>
+        <div class="service-arrow">↗</div>
+        <div class="service-name">Commercial Interiors</div>
+        <p class="service-desc">Offices, boutiques, and hospitality spaces that leave an impression — designed to perform as beautifully as they appear.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-num">03</div>
+        <div class="service-arrow">↗</div>
+        <div class="service-name">Bespoke Objects</div>
+        <p class="service-desc">Custom furniture and objects made in collaboration with artisans. Pieces that carry a history before the first hand touches them.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <div class="about-section" id="about">
+    <div class="about-visual reveal">
+      <div class="about-img-main"></div>
+      <div class="about-img-accent">
+        <div class="about-stat">
+          <div class="about-stat-num">18</div>
+          <div class="about-stat-label">Years of Practice</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-text">
+      <div class="section-label reveal">The Studio</div>
+      <h2 class="section-title reveal reveal-delay-1">Design with<br><em>intention</em><br>and craft.</h2>
+      <p class="about-body reveal reveal-delay-1">Haven was founded on a single belief: that a well-designed space is a form of quiet generosity. We don't impose style — we reveal the essential character of a place and the people who inhabit it.</p>
+      <p class="about-body reveal reveal-delay-2">Every project begins with listening. We study how light moves through your space across a full day. We observe how you move, gather, rest. Only then do we design.</p>
+      <div class="about-signature reveal reveal-delay-2">
+        Eleanor Marsh
+        <div class="about-sig-sub">Founder & Principal Designer</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="projects-section" id="work">
+    <div class="projects-header">
+      <div>
+        <div class="section-label reveal">Selected Work</div>
+        <h2 class="section-title reveal reveal-delay-1">Recent <em>projects</em></h2>
+      </div>
+      <a href="#" class="reveal">View all work →</a>
+    </div>
+    <div class="projects-scroll">
+      <div class="project-card">
+        <div class="project-bg project-bg-1"></div>
+        <div class="project-info">
+          <div class="project-cat">Residential · 2024</div>
+          <div class="project-title">The Alderton Townhouse</div>
+          <div class="project-detail">London, UK — Full Interior Architecture</div>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-bg project-bg-2"></div>
+        <div class="project-info">
+          <div class="project-cat">Hospitality · 2024</div>
+          <div class="project-title">Maison Cellier Hotel</div>
+          <div class="project-detail">Paris, FR — Lobby & Suite Design</div>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-bg project-bg-3"></div>
+        <div class="project-info">
+          <div class="project-cat">Commercial · 2023</div>
+          <div class="project-title">Novo Creative Campus</div>
+          <div class="project-detail">New York, US — Workplace Strategy</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROCESS -->
+  <section class="process-section" id="process">
+    <div class="section-label reveal">How We Work</div>
+    <h2 class="section-title reveal reveal-delay-1">A process built<br><em>on trust.</em></h2>
+    <div class="process-grid">
+      <div class="process-step reveal">
+        <div class="process-dot"><div class="process-dot-inner"></div></div>
+        <div class="process-name">Discovery</div>
+        <p class="process-desc">Deep-listening sessions, site visits, and research into your life, your aspirations, and your architecture.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-1">
+        <div class="process-dot"><div class="process-dot-inner"></div></div>
+        <div class="process-name">Concept</div>
+        <p class="process-desc">Mood boards, material palettes, and spatial narratives that establish the soul of the project.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="process-dot"><div class="process-dot-inner"></div></div>
+        <div class="process-name">Design</div>
+        <p class="process-desc">Detailed drawings, specifications, and coordination with architects, contractors, and artisans.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-3">
+        <div class="process-dot"><div class="process-dot-inner"></div></div>
+        <div class="process-name">Realisation</div>
+        <p class="process-desc">On-site oversight, final styling, and the moment we hand the keys to a space that exceeds expectations.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <div class="testimonial-section">
+    <div class="testimonial-inner">
+      <p class="testimonial-quote reveal">"Working with Haven transformed not just our home, but how we experience living in it. Every decision felt considered, every material chosen with care. It is, simply, the most beautiful space we have ever inhabited."</p>
+      <div class="testimonial-author reveal">
+        <div class="testimonial-avatar"></div>
+        <div class="testimonial-name">
+          <div class="t-name">Sophie & James Alderton</div>
+          <div class="t-role">London Townhouse Clients</div>
+        </div>
+      </div>
+      <div class="testimonial-dots">
+        <div class="t-dot active"></div>
+        <div class="t-dot"></div>
+        <div class="t-dot"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT STRIP -->
+  <div class="contact-strip" id="contact">
+    <div class="contact-text">Ready to create<br>something <em>extraordinary?</em></div>
+    <a href="mailto:hello@havendesign.com" class="btn-light">Begin a Conversation</a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">HAV<span>E</span>N</a>
+        <p class="footer-tagline">Interior architecture and design studio. Creating spaces that endure since 2006.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Studio</div>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Our Process</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Work</div>
+        <ul class="footer-links">
+          <li><a href="#">Residential</a></li>
+          <li><a href="#">Commercial</a></li>
+          <li><a href="#">Hospitality</a></li>
+          <li><a href="#">Bespoke</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <ul class="footer-links">
+          <li><a href="#">hello@havendesign.com</a></li>
+          <li><a href="#">+44 20 7946 0231</a></li>
+          <li><a href="#">12 Orme Court, London</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Haven Design Studio. All rights reserved.</div>
+      <div class="footer-socials">
+        <a href="#">Instagram</a>
+        <a href="#">Pinterest</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    function animRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animRing);
+    }
+    animRing();
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(2.5)';
+        ring.style.transform = 'translate(-50%, -50%) scale(1.5)';
+        ring.style.borderColor = 'var(--rust)';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        ring.style.transform = 'translate(-50%, -50%) scale(1)';
+        ring.style.borderColor = 'var(--rust)';
+      });
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Smooth nav bg on scroll
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      if (window.scrollY > 80) {
+        nav.style.background = 'rgba(253,250,245,0.92)';
+        nav.style.backdropFilter = 'blur(12px)';
+        nav.style.boxShadow = '0 1px 0 rgba(0,0,0,0.06)';
+        nav.style.mixBlendMode = 'normal';
+      } else {
+        nav.style.background = 'transparent';
+        nav.style.backdropFilter = 'none';
+        nav.style.boxShadow = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
